@@ -1,0 +1,13 @@
+{
+  "ID": "2FA48E560F1D45C09FB969D6C403AA13",
+  "ActionKeyword": "gpt",
+  "IsGlobal": true,
+  "Name": "ChatGPT Search",
+  "Author": "ferraridavide",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "https://aka.ms/powertoys",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.ChatGPT.dll",
+  "IcoPathDark": "Images\\ChatGPT.dark.png",
+  "IcoPathLight": "Images\\ChatGPT.light.png"
+}
