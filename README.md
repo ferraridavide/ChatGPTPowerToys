@@ -1,5 +1,7 @@
 # ChatGPT for PowerToys Run
-![](./demo.gif)
+<p align="center">
+    <img alt="logo" src="./demo.gif">
+</p>
 
 ### Compiling plugin
 1. Clone the PowerToys repository to your local disk using the command `git clone https://github.com/microsoft/PowerToys.git`
