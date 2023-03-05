@@ -3,6 +3,13 @@
     <img alt="logo" src="./demo.gif">
 </p>
 
+### How to install
+If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/ferraridavide/ChatGPTPowerToys/releases) from the Release section and [installing the Tampermonkey user script](#using-tampermonkey-recommended)
+The installation process is as follows:
+1. Locate your PowerToys installation (eg. `C:\Program Files\PowerToys`)
+1. Navigate to `\modules\launcher\Plugins`
+1. Unpack the downloaded binaries
+
 ### Compiling plugin
 1. Clone the PowerToys repository to your local disk using the command `git clone https://github.com/microsoft/PowerToys.git`
 1. Navigate to the PowerToys directory using `cd PowerToys`
@@ -15,7 +22,7 @@
 Unfortunately, ChatGPT does not provide a query string parameter for passing prompts. Therefore, we must utilize a browser extension to inject the prompt.
 
 ### Using Tampermonkey (recommended)
-Tampermonkey is a popular browser extension that allows to inject custom user scripts in webpages, visit [tampermonkey.net](https://www.tampermonkey.net/) to download.
+Tampermonkey is a popular browser extension that allows to inject custom user scripts in webpages, visit [tampermonkey.net](https://www.tampermonkey.net/) to install it.
 
 Install this script
 ```
