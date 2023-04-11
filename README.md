@@ -25,7 +25,7 @@ Unfortunately, ChatGPT does not provide a query string parameter for passing pro
 Tampermonkey is a popular browser extension that allows to inject custom user scripts in webpages, visit [tampermonkey.net](https://www.tampermonkey.net/) to install it.
 
 Install this script
-```
+```javascript
 // ==UserScript==
 // @name         PowerToys Run ChatGPT Helper
 // @version      0.1
@@ -56,6 +56,44 @@ Install this script
             textArea.value = prompt;
             submitButton.click();
         }, 0);
+    }
+})();
+```
+
+AIPRM extension compatible version of script
+```javascript
+// ==UserScript==
+// @name         PowerToys Run ChatGPT Helper
+// @version      0.1
+// @description  https://github.com/ferraridavide/ChatGPTPowerToys
+// @author       Davide Ferrari
+// @match        https://chat.openai.com/chat?PTquery=*
+// @icon         https://raw.githubusercontent.com/ferraridavide/ChatGPTPowerToys/master/src/PowerToys.ChatGPT.BrowserExtension/icons/icon128.png
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    console.log("PowerToys Run ChatGPT Helper script loaded");
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const prompt = searchParams.get("PTquery");
+
+    if (prompt) {
+        setTimeout(() => {
+            const textArea = document.querySelector("form textarea");
+            const submitButton = document.querySelectorAll("form button")[1]; // AIPRM add another button so change with the second button
+
+            if (!textArea || !submitButton) {
+                console.error("Cannot find required elements");
+            }
+
+            textArea.value = prompt;
+
+            submitButton.disabled = false // I don't know why this happen but changing value not updating so change manually
+            submitButton.click();
+        }, 2000);
     }
 })();
 ```
