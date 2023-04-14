@@ -60,8 +60,12 @@ Install this script
 })();
 ```
 
-AIPRM extension compatible version of script
-```javascript
+
+<details>
+  <summary>AIPRM browser extension compatability</summary>
+  Thanks to @babico for providing this modified script!
+
+ ```javascript
 // ==UserScript==
 // @name         PowerToys Run ChatGPT Helper
 // @version      0.1
@@ -97,6 +101,7 @@ AIPRM extension compatible version of script
     }
 })();
 ```
+</details>
 
 ### Using the custom browser extension
 1. Open your preferred browser and navigate to the settings or preferences menu.
