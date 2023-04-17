@@ -28,7 +28,7 @@ Install this script
 ```javascript
 // ==UserScript==
 // @name         PowerToys Run ChatGPT Helper
-// @version      0.1
+// @version      0.2
 // @description  https://github.com/ferraridavide/ChatGPTPowerToys
 // @author       Davide Ferrari
 // @match        https://chat.openai.com/chat?PTquery=*
@@ -54,8 +54,9 @@ Install this script
         textArea.value = prompt;
         setTimeout(() => {
             textArea.value = prompt;
+            submitButton.disabled = false;
             submitButton.click();
-        }, 0);
+        }, 500);
     }
 })();
 ```
@@ -68,10 +69,10 @@ Install this script
  ```javascript
 // ==UserScript==
 // @name         PowerToys Run ChatGPT Helper
-// @version      0.1
+// @version      0.2
 // @description  https://github.com/ferraridavide/ChatGPTPowerToys
 // @author       Davide Ferrari
-// @match        https://chat.openai.com/chat?PTquery=*
+// @match        https://chat.openai.com/?PTquery=*
 // @icon         https://raw.githubusercontent.com/ferraridavide/ChatGPTPowerToys/master/src/PowerToys.ChatGPT.BrowserExtension/icons/icon128.png
 // @grant        none
 // ==/UserScript==
@@ -94,10 +95,9 @@ Install this script
             }
 
             textArea.value = prompt;
-
-            submitButton.disabled = false // I don't know why this happen but changing value not updating so change manually
+            submitButton.disabled = false;
             submitButton.click();
-        }, 2000);
+        }, 500);
     }
 })();
 ```
