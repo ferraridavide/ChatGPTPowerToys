@@ -31,7 +31,7 @@ Install this script
 // @version      0.2
 // @description  https://github.com/ferraridavide/ChatGPTPowerToys
 // @author       Davide Ferrari
-// @match        https://chat.openai.com/chat?PTquery=*
+// @match        https://chat.openai.com/?PTquery=*
 // @icon         https://raw.githubusercontent.com/ferraridavide/ChatGPTPowerToys/master/src/PowerToys.ChatGPT.BrowserExtension/icons/icon128.png
 // @grant        none
 // ==/UserScript==
