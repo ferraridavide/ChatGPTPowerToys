@@ -28,35 +28,41 @@ Install this script
 ```javascript
 // ==UserScript==
 // @name         PowerToys Run ChatGPT Helper
-// @version      0.2
+// @version      0.3
 // @description  https://github.com/ferraridavide/ChatGPTPowerToys
 // @author       Davide Ferrari
 // @match        https://chat.openai.com/?PTquery=*
 // @icon         https://raw.githubusercontent.com/ferraridavide/ChatGPTPowerToys/master/src/PowerToys.ChatGPT.BrowserExtension/icons/icon128.png
 // @grant        none
 // ==/UserScript==
-
 (function() {
     'use strict';
-
     console.log("PowerToys Run ChatGPT Helper script loaded");
-
     const searchParams = new URLSearchParams(window.location.search);
     const prompt = searchParams.get("PTquery");
     if (prompt) {
-
         setTimeout(() => {
             const textArea = document.querySelector("form textarea");
-            const submitButton = document.querySelector("form button");
-
-            if (!textArea || !submitButton) {
-                console.error("Cannot find required elements");
+            if (!textArea) {
+                console.error("Cannot find the textarea element");
+                return;
             }
-
             textArea.value = prompt;
-            submitButton.disabled = false;
-            submitButton.click();
-        }, 500);
+            const inputEvent = new Event('input', {
+                'bubbles': true,
+                'cancelable': true
+            });
+            textArea.dispatchEvent(inputEvent);
+
+            setTimeout(() => {
+                const submitButton = document.querySelector("form button");
+                if (!submitButton) {
+                    console.error("Cannot find the submit button");
+                    return;
+                }
+                submitButton.click();
+            }, 500);
+        }, 1000);
     }
 })();
 ```
