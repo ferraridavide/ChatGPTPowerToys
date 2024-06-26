@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
                     IcoPath = _iconPath,
                 };
 
-                string arguments = $"https://chat.openai.com/?PTquery={HttpUtility.UrlEncode(searchTerm)}";
+                string arguments = $"https://chat.openai.com/?q={HttpUtility.UrlEncode(searchTerm)}";
 
                 result.ProgramArguments = arguments;
                 result.Action = action =>
