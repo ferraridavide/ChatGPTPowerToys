@@ -4,13 +4,13 @@
 </p>
 
 ### How to install
-If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/ferraridavide/ChatGPTPowerToys/releases) from the Release section and [installing the Tampermonkey user script](#using-tampermonkey-recommended)
-The installation process is as follows:
+If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/ferraridavide/ChatGPTPowerToys/releases) from the Release section.
+The installation process goes as follows:
 1. Locate your PowerToys installation (eg. `C:\Program Files\PowerToys`)
 1. Navigate to `\modules\launcher\Plugins`
 1. Unpack the downloaded binaries
 
-### Compiling plugin
+### Compiling the plugin
 1. Clone the PowerToys repository to your local disk using the command `git clone https://github.com/microsoft/PowerToys.git`
 1. Navigate to the PowerToys directory using `cd PowerToys`
 1. Initialize and update submodules with the command `git submodule update --init --recursive`
