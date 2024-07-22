@@ -2,7 +2,7 @@
 	<Import Project="..\..\..\..\Version.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<ProjectGuid>{1B9CEB09-E879-45E8-93F4-BD5CD555EAA7}</ProjectGuid>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>Community.PowerToys.Run.Plugin.ChatGPT</RootNamespace>
