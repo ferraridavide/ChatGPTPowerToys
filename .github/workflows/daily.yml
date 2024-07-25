@@ -31,4 +31,4 @@ jobs:
   run-if-tags-differ:
       needs: check-tags
       if: ${{ needs.check-tags.outputs.tags_match == 'false' }}
-      uses: ./.github/workflows/main.yml
+      uses: ./.github/workflows/build.yml
