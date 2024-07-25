@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Web;
 using ManagedCommon;
 using Wox.Infrastructure;
@@ -25,9 +26,15 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
         private bool _disposed;
 
+        public static string PluginID => "2FA48E560F1D45C09FB969D6C403AA13";
+
         public string Name => Properties.Resources.plugin_name;
 
         public string Description => Properties.Resources.plugin_description;
+
+        private static readonly CompositeFormat InBrowserName = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_in_browser_name);
+        private static readonly CompositeFormat Open = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_open);
+        private static readonly CompositeFormat SearhFailed = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_search_failed);
 
         public List<ContextMenuResult> LoadContextMenus(Result selectedResult)
         {
@@ -36,10 +43,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
         public List<Result> Query(Query query)
         {
-            if (query is null)
-            {
-                throw new ArgumentNullException(nameof(query));
-            }
+            ArgumentNullException.ThrowIfNull(query);
 
             var results = new List<Result>();
 
@@ -50,7 +54,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
                 results.Add(new Result
                 {
                     Title = Properties.Resources.plugin_description,
-                    SubTitle = string.Format(CultureInfo.CurrentCulture, Properties.Resources.plugin_in_browser_name, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
+                    SubTitle = string.Format(CultureInfo.CurrentCulture, InBrowserName, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
                     QueryTextDisplay = string.Empty,
                     IcoPath = _iconPath,
                     ProgramArguments = arguments,
@@ -74,7 +78,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
                 var result = new Result
                 {
                     Title = searchTerm,
-                    SubTitle = string.Format(CultureInfo.CurrentCulture, Properties.Resources.plugin_open, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
+                    SubTitle = string.Format(CultureInfo.CurrentCulture, Open, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
                     QueryTextDisplay = searchTerm,
                     IcoPath = _iconPath,
                 };
@@ -108,7 +112,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
             onPluginError = () =>
             {
-                string errorMsgString = string.Format(CultureInfo.CurrentCulture, Properties.Resources.plugin_search_failed, BrowserInfo.Name ?? BrowserInfo.MSEdgeName);
+                string errorMsgString = string.Format(CultureInfo.CurrentCulture, SearhFailed, BrowserInfo.Name ?? BrowserInfo.MSEdgeName);
 
                 Log.Error(errorMsgString, this.GetType());
                 _context.API.ShowMsg(
