@@ -25,7 +25,7 @@ jobs:
       working-directory: PowerToys
       run: |
         git fetch --tags
-        $latestTag = git describe --tags --abbrev=0
+        $latestTag = (git describe --tags --abbrev=0).ToLower()
         git checkout $latestTag
         git submodule update --init --recursive
         echo "LATEST_TAG=$latestTag" >> $env:GITHUB_OUTPUT
