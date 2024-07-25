@@ -1,0 +1,34 @@
+name: Daily check for updates
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+  workflow_dispatch: 
+
+jobs:
+  check-tags:
+    outputs:
+        tags_match: ${{ steps.compare_tags.outputs.TAGS_MATCH }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Compare release tags
+      id: compare_tags
+      run: |
+        LOCAL_TAG=$(curl -s "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r .tag_name)
+        REMOTE_TAG=$(curl -s "https://api.github.com/repos/microsoft/PowerToys/releases/latest" | jq -r .tag_name)
+        
+        echo "Local tag: $LOCAL_TAG"
+        echo "Remote tag: $REMOTE_TAG"
+        
+        if [ "$LOCAL_TAG" != "$REMOTE_TAG" ]; then
+          echo "Tags match. Exiting."
+          echo "TAGS_MATCH=true" >> $GITHUB_OUTPUT
+        else
+          echo "Tags do not match. Proceeding to next action."
+          echo "TAGS_MATCH=false" >> $GITHUB_OUTPUT
+        fi
+        
+  run-if-tags-differ:
+      needs: check-tags
+      if: ${{ needs.check-tags.outputs.tags_match == 'false' }}
+      uses: ./.github/workflows/main.yml
