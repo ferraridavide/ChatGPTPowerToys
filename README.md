@@ -1,4 +1,5 @@
 # ChatGPT for PowerToys Run
+[![Build](https://github.com/ferraridavide/ChatGPTPowerToys/actions/workflows/build.yml/badge.svg)](https://github.com/ferraridavide/ChatGPTPowerToys/actions/workflows/build.yml)
 <p align="center">
     <img alt="logo" src="./demo.gif">
 </p>
