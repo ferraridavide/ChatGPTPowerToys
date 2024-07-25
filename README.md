@@ -7,7 +7,7 @@
 If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/ferraridavide/ChatGPTPowerToys/releases) from the Release section.
 The installation process goes as follows:
 1. Locate your PowerToys installation (eg. `C:\Program Files\PowerToys`)
-1. Navigate to `\modules\launcher\Plugins`
+1. Navigate to `\RunPlugins`
 1. Unpack the downloaded binaries
 
 ### Compiling the plugin
