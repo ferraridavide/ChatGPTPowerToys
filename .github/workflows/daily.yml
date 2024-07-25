@@ -20,7 +20,7 @@ jobs:
         echo "Local tag: $LOCAL_TAG"
         echo "Remote tag: $REMOTE_TAG"
         
-        if [ "$LOCAL_TAG" != "$REMOTE_TAG" ]; then
+        if [ "$LOCAL_TAG" = "$REMOTE_TAG" ]; then
           echo "Tags match. Exiting."
           echo "TAGS_MATCH=true" >> $GITHUB_OUTPUT
         else
