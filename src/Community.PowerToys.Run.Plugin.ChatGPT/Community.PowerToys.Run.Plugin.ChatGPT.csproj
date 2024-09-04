@@ -8,7 +8,6 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>Community.PowerToys.Run.Plugin.ChatGPT</RootNamespace>
 		<AssemblyName>Community.PowerToys.Run.Plugin.ChatGPT</AssemblyName>
-		<Version>$(Version).0</Version>
 		<useWPF>true</useWPF>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
