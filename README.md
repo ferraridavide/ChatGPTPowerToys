@@ -19,3 +19,5 @@ The installation process goes as follows:
 1. Clone the fork of ChatGPTPowerToys into the local PowerToys repository by running `git clone https://github.com/ferraridavide/ChatGPTPowerToys.git` in the `PowerToys\src\modules\launcher\Plugins` directory
 1. In Visual Studio, add the local clone of ChatGPTPowerToys as an existing project to the PowerToys's Plugins folder (`modules\launcher\Plugins`)
 1. Compile
+
+For **PWA support**, see [#13](https://github.com/ferraridavide/ChatGPTPowerToys/issues/13)
