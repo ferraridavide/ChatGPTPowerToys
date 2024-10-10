@@ -1,17 +1,16 @@
-# ChatGPT for PowerToys Run
-[![Build](https://github.com/ferraridavide/ChatGPTPowerToys/actions/workflows/build.yml/badge.svg)](https://github.com/ferraridavide/ChatGPTPowerToys/actions/workflows/build.yml)
-<p align="center">
-    <img alt="logo" src="./demo.gif">
-</p>
+# ChatClaude for PowerToys Run
 
 ### How to install
-If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/ferraridavide/ChatGPTPowerToys/releases) from the Release section.
+
+If you simply want to install the plugin to get up and running quickly, i suggest downloading the [precompiled binaries](https://github.com/mba/ChatClaudePowerToys/releases) from the Release section.
 The installation process goes as follows:
+
 1. Locate your PowerToys installation (eg. `C:\Program Files\PowerToys`)
 1. Navigate to `\RunPlugins`
 1. Unpack the downloaded binaries
 
 ### Compiling the plugin
+
 1. Clone the PowerToys repository to your local disk using the command `git clone https://github.com/microsoft/PowerToys.git`
 1. Navigate to the PowerToys directory using `cd PowerToys`
 1. Initialize and update submodules with the command `git submodule update --init --recursive`
