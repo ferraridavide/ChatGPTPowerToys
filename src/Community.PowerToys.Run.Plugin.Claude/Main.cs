@@ -13,7 +13,7 @@ using Wox.Plugin;
 using Wox.Plugin.Logger;
 using BrowserInfo = Wox.Plugin.Common.DefaultBrowserInfo;
 
-namespace Community.PowerToys.Run.Plugin.ChatGPT
+namespace Community.PowerToys.Run.Plugin.Claude
 {
     public class Main : IPlugin, IPluginI18n, IContextMenu, IReloadable, IDisposable
     {
@@ -47,20 +47,19 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
             var results = new List<Result>();
 
-            // empty query
             if (string.IsNullOrEmpty(query.Search))
             {
-                string arguments = "https://chatgpt.com/";
+                string arguments = "https://claude.ai/chat";
                 results.Add(new Result
                 {
                     Title = Properties.Resources.plugin_description,
-                    SubTitle = string.Format(CultureInfo.CurrentCulture, InBrowserName, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
+                    SubTitle = string.Format(CultureInfo.CurrentCulture, InBrowserName, "Chrome"),
                     QueryTextDisplay = string.Empty,
                     IcoPath = _iconPath,
                     ProgramArguments = arguments,
                     Action = action =>
                     {
-                        if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, arguments))
+                        if (!Helper.OpenCommandInShell("chrome.exe", "--new-window \"{0}\"", arguments))
                         {
                             onPluginError();
                             return false;
@@ -78,17 +77,17 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
                 var result = new Result
                 {
                     Title = searchTerm,
-                    SubTitle = string.Format(CultureInfo.CurrentCulture, Open, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
+                    SubTitle = string.Format(CultureInfo.CurrentCulture, Open, "Chrome"),
                     QueryTextDisplay = searchTerm,
                     IcoPath = _iconPath,
                 };
 
-                string arguments = $"https://chatgpt.com/?q={HttpUtility.UrlEncode(searchTerm)}";
+                string arguments = $"https://claude.ai/chat";
 
                 result.ProgramArguments = arguments;
                 result.Action = action =>
                 {
-                    if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, arguments))
+                    if (!Helper.OpenCommandInShell("chrome.exe", "--new-window \"{0}\"", arguments))
                     {
                         onPluginError();
                         return false;
