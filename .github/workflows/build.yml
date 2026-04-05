@@ -41,8 +41,17 @@ jobs:
 
     - name: Restore NuGet packages
       working-directory: PowerToys
+      shell: pwsh
       run: |
-        nuget restore PowerToys.sln
+        if (Test-Path "PowerToys.sln") {
+          nuget restore PowerToys.sln
+        }
+        elseif (Test-Path "PowerToys.slnx") {
+          dotnet restore PowerToys.slnx
+        }
+        else {
+          throw "No PowerToys solution file found (expected PowerToys.sln or PowerToys.slnx)."
+        }
 
     - name: Build solution
       working-directory: PowerToys
