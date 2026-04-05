@@ -41,8 +41,9 @@ jobs:
 
     - name: Restore NuGet packages
       working-directory: PowerToys
+      shell: pwsh
       run: |
-        nuget restore PowerToys.sln
+        nuget restore PowerToys.slnx
 
     - name: Build solution
       working-directory: PowerToys
