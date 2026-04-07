@@ -17,13 +17,9 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 {
     public class Main : IPlugin, IPluginI18n, IContextMenu, IReloadable, IDisposable
     {
-        // Should only be set in Init()
         private Action onPluginError;
-
         private PluginInitContext _context;
-
         private string _iconPath;
-
         private bool _disposed;
 
         public static string PluginID => "2FA48E560F1D45C09FB969D6C403AA13";
@@ -32,13 +28,18 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
         public string Description => Properties.Resources.plugin_description;
 
-        private static readonly CompositeFormat InBrowserName = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_in_browser_name);
-        private static readonly CompositeFormat Open = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_open);
-        private static readonly CompositeFormat SearhFailed = System.Text.CompositeFormat.Parse(Properties.Resources.plugin_search_failed);
+        private static readonly CompositeFormat InBrowserName =
+            CompositeFormat.Parse(Properties.Resources.plugin_in_browser_name);
+
+        private static readonly CompositeFormat Open =
+            CompositeFormat.Parse(Properties.Resources.plugin_open);
+
+        private static readonly CompositeFormat SearchFailed =
+            CompositeFormat.Parse(Properties.Resources.plugin_search_failed);
 
         public List<ContextMenuResult> LoadContextMenus(Result selectedResult)
         {
-            return new List<ContextMenuResult>(0);
+            return new List<ContextMenuResult>();
         }
 
         public List<Result> Query(Query query)
@@ -46,21 +47,40 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
             ArgumentNullException.ThrowIfNull(query);
 
             var results = new List<Result>();
+            string raw = query.Search?.Trim() ?? string.Empty;
 
-            // empty query
-            if (string.IsNullOrEmpty(query.Search))
+            // Split by space for subcommands
+            string[] parts = raw.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+
+            string command = parts.Length > 0 ? parts[0].ToLowerInvariant() : string.Empty;
+            string argument = parts.Length > 1 ? parts[1] : string.Empty;
+
+            // TEMPORARY CHAT: gpt tm <query>
+            if (command == "tm")
             {
-                string arguments = "https://chatgpt.com/";
+                string url;
+
+                if (string.IsNullOrEmpty(argument))
+                {
+                    url = "https://chatgpt.com/?temporary-chat=true";
+                }
+                else
+                {
+                    url = $"https://chatgpt.com/?temporary-chat=true&q={HttpUtility.UrlEncode(argument)}";
+                }
+
                 results.Add(new Result
                 {
-                    Title = Properties.Resources.plugin_description,
-                    SubTitle = string.Format(CultureInfo.CurrentCulture, InBrowserName, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
-                    QueryTextDisplay = string.Empty,
+                    Title = string.IsNullOrEmpty(argument)
+                        ? "New Temporary Chat"
+                        : $"Temporary Chat: {argument}",
+                    SubTitle = $"Open in {BrowserInfo.Name ?? BrowserInfo.MSEdgeName}",
                     IcoPath = _iconPath,
-                    ProgramArguments = arguments,
+                    QueryTextDisplay = raw,
+                    ProgramArguments = url,
                     Action = action =>
                     {
-                        if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, arguments))
+                        if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, url))
                         {
                             onPluginError();
                             return false;
@@ -69,38 +89,60 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
                         return true;
                     },
                 });
+
                 return results;
             }
-            else
+
+            // NORMAL CHAT: gpt <query>
+            if (!string.IsNullOrEmpty(raw))
             {
-                string searchTerm = query.Search;
+                string url = $"https://chatgpt.com/?q={HttpUtility.UrlEncode(raw)}";
 
-                var result = new Result
+                results.Add(new Result
                 {
-                    Title = searchTerm,
+                    Title = raw,
                     SubTitle = string.Format(CultureInfo.CurrentCulture, Open, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
-                    QueryTextDisplay = searchTerm,
+                    QueryTextDisplay = raw,
                     IcoPath = _iconPath,
-                };
-
-                string arguments = $"https://chatgpt.com/?q={HttpUtility.UrlEncode(searchTerm)}";
-
-                result.ProgramArguments = arguments;
-                result.Action = action =>
-                {
-                    if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, arguments))
+                    ProgramArguments = url,
+                    Action = action =>
                     {
-                        onPluginError();
-                        return false;
-                    }
+                        if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, url))
+                        {
+                            onPluginError();
+                            return false;
+                        }
 
-                    return true;
-                };
+                        return true;
+                    },
+                });
 
-                results.Add(result);
+                return results;
             }
 
-            return results;
+            {
+                string url = "https://chatgpt.com/";
+
+                results.Add(new Result
+                {
+                    Title = Properties.Resources.plugin_description,
+                    SubTitle = string.Format(CultureInfo.CurrentCulture, InBrowserName, BrowserInfo.Name ?? BrowserInfo.MSEdgeName),
+                    IcoPath = _iconPath,
+                    ProgramArguments = url,
+                    Action = action =>
+                    {
+                        if (!Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern, url))
+                        {
+                            onPluginError();
+                            return false;
+                        }
+
+                        return true;
+                    },
+                });
+
+                return results;
+            }
         }
 
         public void Init(PluginInitContext context)
@@ -112,12 +154,13 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
             onPluginError = () =>
             {
-                string errorMsgString = string.Format(CultureInfo.CurrentCulture, SearhFailed, BrowserInfo.Name ?? BrowserInfo.MSEdgeName);
+                string errorMsg = string.Format(
+                    CultureInfo.CurrentCulture,
+                    SearchFailed,
+                    BrowserInfo.Name ?? BrowserInfo.MSEdgeName);
 
-                Log.Error(errorMsgString, this.GetType());
-                _context.API.ShowMsg(
-                    $"Plugin: {Properties.Resources.plugin_name}",
-                    errorMsgString);
+                Log.Error(errorMsg, GetType());
+                _context.API.ShowMsg($"Plugin: {Properties.Resources.plugin_name}", errorMsg);
             };
         }
 
@@ -138,19 +181,14 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
 
         private void UpdateIconPath(Theme theme)
         {
-            if (theme == Theme.Light || theme == Theme.HighContrastWhite)
-            {
-                _iconPath = "Images/ChatGPT.light.png";
-            }
-            else
-            {
-                _iconPath = "Images/ChatGPT.dark.png";
-            }
+            _iconPath = (theme == Theme.Light || theme == Theme.HighContrastWhite)
+                ? "Images/ChatGPT.light.png"
+                : "Images/ChatGPT.dark.png";
         }
 
         public void ReloadData()
         {
-            if (_context is null)
+            if (_context == null)
             {
                 return;
             }
@@ -169,7 +207,7 @@ namespace Community.PowerToys.Run.Plugin.ChatGPT
         {
             if (!_disposed && disposing)
             {
-                if (_context != null && _context.API != null)
+                if (_context?.API != null)
                 {
                     _context.API.ThemeChanged -= OnThemeChanged;
                 }
